@@ -1,15 +1,29 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        return input.size
+        var maxSum = 0
+        var curSum = 0
+        for (value in input) {
+            value.toIntOrNull()?.let { curSum += it }
+                ?: run {
+                    if (curSum > maxSum) maxSum = curSum
+                    curSum = 0
+                }
+        }
+        return maxSum
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        val sumsList = mutableListOf<Int>()
+        var curSum = 0
+        for (value in input) {
+            value.toIntOrNull()?.let { curSum += it }
+                ?: run {
+                    sumsList.add(curSum)
+                    curSum = 0
+                }
+        }
+        return sumsList.sortedDescending().take(3).sum()
     }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
 
     val input = readInput("Day01")
     part1(input).println()
